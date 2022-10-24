@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Services
+@inject LocaleService localService
+
+<PageTitle>Index</PageTitle>
+
+<h1>No reload localization example!</h1>
+
+<p>@localService.GetByKey("hello"), @localService.GetByKey("world")!</p>
+
+<button class="btn btn-primary" @onclick=@(() => ToggleLocale("en"))>English</button>
+<button class="btn btn-primary" @onclick=@(() => ToggleLocale("es"))>Spanish</button>
+
+
+@code {
+    public void ToggleLocale(string locale)
+    {
+        this.localService.UpdateLocale(locale);
+        StateHasChanged();
+    }
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.localService.Load();
+    }
+}
